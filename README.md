@@ -91,9 +91,16 @@ The integration registers the following services under **Developer Tools > Actio
 
 ---
 
-## Mobile Notification Blueprint (iOS & Android)
+## Mobile Notification Blueprint (iOS & Android, No Card Needed)
+
+Yes — the notification blueprint is fully standalone. It does not use the Frigate Events Card at all, just this integration + the official Frigate integration + MQTT + the Companion App.
 
 Add 1-tap **Temporary Mask (24h)** and **Mask (8h)** action buttons directly to Frigate mobile push notifications. Tapping an action automatically creates the temporary mask in Frigate without opening the dashboard.
+
+How it works:
+- Triggers on MQTT `frigate/events` (`new`), sends a push with snapshot thumbnail via `mobile_app` notify, with the Frigate `event_id` embedded in `action_data`.
+- Tapping **Temporary Mask** / **Mask 8h** (Android via `mobile_app_notification_action`, iOS via `ios.notification_action_fired`) calls `frigate_temp_mask.add_mask` with that `event_id` and 24h / 8h duration. Camera/label/box are looked up automatically.
+- Filter to one camera with the blueprint's `camera_name` input, or leave empty for all cameras.
 
 <p align="center">
   <img src="https://raw.githubusercontent.com/saihgupr/frigate-events-card/main/images/snapshots/temp-mask-2.png" width="340" alt="Frigate Mobile Notification with Temporary Mask Actions" />
