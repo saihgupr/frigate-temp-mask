@@ -5,9 +5,11 @@
 [![Hassfest](https://github.com/saihgupr/frigate-temp-mask/actions/workflows/hassfest.yml/badge.svg)](https://github.com/saihgupr/frigate-temp-mask/actions/workflows/hassfest.yml)
 [![HACS Validation](https://github.com/saihgupr/frigate-temp-mask/actions/workflows/hacs.yml/badge.svg)](https://github.com/saihgupr/frigate-temp-mask/actions/workflows/hacs.yml)
 
-A Home Assistant integration that dynamically creates and manages temporary false-positive masks in [Frigate NVR](https://frigate.video/). 
+A Home Assistant integration that dynamically creates and manages temporary false-positive masks in [Frigate NVR](https://frigate.video/).
 
-Designed as the backend companion for the [Frigate Events Card](https://github.com/saihgupr/frigate-events-card), it lets you silence false alarms (e.g. parked delivery vans, moved wheelbarrows, packages, shadows) with a single tap, applies an expanded bounding-box polygon directly to Frigate's configuration, and automatically prunes the mask once its timer expires.
+It works fully standalone — no dashboard card required. It lets you silence false alarms (e.g. parked delivery vans, moved wheelbarrows, packages, shadows) from an automation, mobile notification, or Developer Tools, applies an expanded bounding-box polygon directly to Frigate's configuration, and automatically prunes the mask once its timer expires.
+
+Pairs optionally with the [Frigate Events Card](https://github.com/saihgupr/frigate-events-card) if you want a visual Mask Manager, but the card is never required.
 
 <p align="center">
   <img src="https://raw.githubusercontent.com/saihgupr/frigate-events-card/main/images/snapshots/temp-mask.png" width="49%" alt="Temporary Mask Manager" />
@@ -106,7 +108,16 @@ https://github.com/saihgupr/frigate-temp-mask/blob/main/blueprints/automation/fr
 
 ---
 
-## Frontend Companion Card
+## Using Without the Card
+
+No card needed for core use. All logic lives in this integration:
+
+- **What you need:** the official Frigate integration configured (this integration reads its Frigate URL from it), plus network access from HA to Frigate's HTTP API. No other dependencies.
+- **How to mask:** call `frigate_temp_mask.add_mask` with just an `event_id` — camera, label, and box are looked up from Frigate automatically. Works from **Developer Tools > Actions**, any automation/script, or the notification blueprint above.
+- **How to manage:** use `sensor.frigate_active_masks` to see active masks, expirations, and pending restarts, and use `set_duration`, `remove_mask`, `prune_all`, `sync`, `restart` to manage them. Expiry, persistence across HA restarts, and Frigate config reconciliation all run internally.
+- **What the card adds (optional):** Mask Manager modal, context-menu add/remove, polygon editor, and live mask overlay. Same backend, just a visual frontend.
+
+## Frontend Companion Card (Optional)
 
 For the full interactive Mask Manager UI, timeline scrubber, and live polygon overlays, pair this integration with the **[Frigate Events Card](https://github.com/saihgupr/frigate-events-card)**.
 
