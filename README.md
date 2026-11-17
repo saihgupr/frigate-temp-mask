@@ -13,12 +13,12 @@ Pairs optionally with the [Frigate Events Card](https://github.com/saihgupr/frig
 
 <p align="center">
   <img src="https://raw.githubusercontent.com/saihgupr/frigate-events-card/main/images/snapshots/temp-mask.png" width="49%" alt="Temporary Mask Manager" />
-  <img src="https://raw.githubusercontent.com/saihgupr/frigate-events-card/main/images/snapshots/temp-mask-1.png" width="49%" alt="Frigate Config Object Mask" />
+  <img src="https://raw.githubusercontent.com/saihgupr/frigate-events-card/main/images/snapshots/temp-mask-3.png" width="49%" alt="Temporary mask polygon editor with resize controls and label field" />
 </p>
 
 <p align="center">
-  <img src="https://raw.githubusercontent.com/saihgupr/frigate-events-card/main/images/snapshots/temp-mask-3.png" width="49%" alt="Temporary mask polygon editor with resize controls and label field" />
   <img src="https://raw.githubusercontent.com/saihgupr/frigate-events-card/main/images/snapshots/temp-mask-4.png" width="49%" alt="Temporary mask list showing active masks" />
+  <img src="https://raw.githubusercontent.com/saihgupr/frigate-events-card/main/images/snapshots/temp-mask-1.png" width="49%" alt="Frigate Config Object Mask" />
 </p>
 
 ---
