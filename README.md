@@ -16,19 +16,27 @@ Pairs optionally with the [Frigate Events Card](https://github.com/saihgupr/frig
   <img src="https://raw.githubusercontent.com/saihgupr/frigate-events-card/main/images/snapshots/temp-mask-1.png" width="49%" alt="Frigate Config Object Mask" />
 </p>
 
+<p align="center">
+  <img src="https://raw.githubusercontent.com/saihgupr/frigate-events-card/main/images/snapshots/temp-mask-3.png" width="49%" alt="Temporary mask polygon editor with resize controls and label field" />
+  <img src="https://raw.githubusercontent.com/saihgupr/frigate-events-card/main/images/snapshots/temp-mask-4.png" width="49%" alt="Temporary mask list showing active masks" />
+</p>
+
 ---
 
 ## Features
 
 - **One-Tap False Alarm Masking**: Creates a polygon bounding box (with configurable padding, default +10%) around any Frigate false detection.
+- **Interactive Polygon Mask Editing**: Update polygon coordinates via the `add_mask` service or visually in the companion card with draggable shapes, sliding edges, vertex pins, and 10% expand/shrink/reset controls.
+- **Multi-Label Masking**: Specify comma-separated labels (such as `person, dog`) to apply the same mask polygon across multiple Frigate object filters at once.
 - **Automatic Detector Sync**: Restarts the Frigate detector backend automatically (~1–2 seconds) so false alarms stop immediately.
 - **Frigate 0.18+ Instant Removal**: On modern Frigate versions, masks are removed via the Frigate API (`PUT /api/camera/{camera}/set/object_mask/{name}`) and cleaned from disk with **zero detector restarts**.
+- **Automatic Pruning & Offline Recovery**: Expired masks prune themselves on schedule. If Frigate was offline when a timer expired, removals queue and drain cleanly as soon as Frigate reconnects.
 - **Cross-Version Architecture**: Full automatic format detection and preservation:
   - **Frigate 0.18+**: Dictionary-format object masks and live API control.
   - **Frigate 0.14–0.17**: List-format polygon coordinates.
   - **Frigate 0.13 & earlier**: Automatic normalized-to-pixel coordinate translation.
 - **Diagnostic Sensor (`sensor.frigate_active_masks`)**: Real-time mask count, expiration countdowns, camera names, and pending-restart indicators.
-- **Actionable Push Notifications**: Includes a ready-to-import blueprint for iOS and Android actionable notifications to mask false alarms right from your lock screen.
+- **Reliable Push Notifications (iPhone & Apple Watch)**: Includes an actionable blueprint for iOS, Apple Watch, and Android notifications to mask false alarms right from your lock screen without dropped action data.
 - **Native UI Setup**: Full Home Assistant Config Flow support — configure directly from the UI or via YAML.
 
 ---
@@ -80,7 +88,7 @@ The integration registers the following services under **Developer Tools > Actio
 
 | Service | Description | Parameters |
 |---|---|---|
-| `frigate_temp_mask.add_mask` | Adds a temporary bounding-box mask around a false detection in Frigate. | `event_id` (required), `duration_hours` (default: 24), `camera` (optional), `padding` (default: 0.10), `mask_id` (optional) |
+| `frigate_temp_mask.add_mask` | Adds or updates a temporary mask around a false detection or custom polygon in Frigate. | `event_id` (optional if polygon/camera provided), `camera` (optional), `label` (comma-separated labels, e.g. `person, dog`), `duration_hours` (default: 24), `polygon` (optional), `padding` (default: 0.10), `mask_id` (optional) |
 | `frigate_temp_mask.set_duration` | Updates the expiration duration for an active temporary mask. | `mask_id` (required), `duration_hours` (required) |
 | `frigate_temp_mask.remove_mask` | Removes a temporary mask from Frigate config and API. | `mask_id` (required) |
 | `frigate_temp_mask.prune_all` | Clears all temporary masks from Frigate configuration. | *None* |
